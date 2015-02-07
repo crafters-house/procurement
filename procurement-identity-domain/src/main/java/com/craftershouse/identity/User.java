@@ -16,12 +16,16 @@ import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+
 import lombok.Builder;
 import lombok.Data;
 
+import com.craftershouse.identity.repository.UserRepository;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
+@Configurable
 @Entity
 @Data
 @Builder
@@ -80,5 +84,9 @@ public class User implements Serializable {
 				, joinColumns = { @JoinColumn(name="user_id") }
 				, inverseJoinColumns = { @JoinColumn(name = "group_id") })
 	private List<Group> groups;
+	
+	@Autowired
+	private UserRepository all;
+		
 	
 }
