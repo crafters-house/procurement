@@ -6,4 +6,15 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>procurement-account-domain</artifactId>
+  
+  <dependencies>
+  	
+  		<dependency>
+  			<groupId>com.craftershouse</groupId>
+  			<artifactId>procurement-base-domain</artifactId>
+  			<version>${project.version}</version>
+  		</dependency>
+  	
+  </dependencies>
+  
 </project>
