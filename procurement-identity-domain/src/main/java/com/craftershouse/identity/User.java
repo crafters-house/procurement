@@ -9,26 +9,28 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import lombok.Builder;
-import lombok.Data;
-
 import com.craftershouse.identity.repository.UserRepository;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-@Configurable
+
 @Entity
-@Data
-@Builder
+@Configurable
+@Data @Builder @AllArgsConstructor @NoArgsConstructor
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -87,6 +89,7 @@ public class User implements Serializable {
 	
 	@Autowired
 	private UserRepository all;
-		
+	
+	
 	
 }

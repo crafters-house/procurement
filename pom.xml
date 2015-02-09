@@ -298,6 +298,38 @@
 			<version>${spring-data-jpa.version}</version>
 		</dependency>
 
+		<!-- Commons -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<version>${commons-pool.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>${commons-dbcp.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>${commons-collections.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+
 		<!-- MYSQL Driver -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -390,14 +422,7 @@
 						<wtpversion>2.0</wtpversion>
 						<downloadSources>true</downloadSources>
 						<downloadJavadocs>true</downloadJavadocs>
-						<additionalProjectnatures>
-							<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
-						</additionalProjectnatures>
-						<additionalBuildcommands>
-							<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
-						</additionalBuildcommands>
 					</configuration>
-
 				</plugin>
 
 				<plugin>
@@ -495,7 +520,6 @@
 						</execution>
 					</executions>
 				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
@@ -508,6 +532,8 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+
+
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -606,6 +632,25 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+
+				<database.url>jdbc:mysql://localhost:3306/procurement</database.url>
+				<database.driver>com.mysql.jdbc.Driver</database.driver>
+				<database.username>procurement</database.username>
+				<database.password>procurement</database.password>
+				<database.dialect>org.hibernate.dialect.MySQL5Dialect</database.dialect>
+				<enviroment>local</enviroment>
+
+			</properties>
+		</profile>
+	</profiles>
 
 
 </project>
