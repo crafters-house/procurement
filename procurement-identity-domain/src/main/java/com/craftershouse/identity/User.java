@@ -13,31 +13,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-
+import com.craftershouse.activerecord.DomainEntity;
 import com.craftershouse.identity.repository.UserRepository;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
 @Entity
-@Configurable
-@Data @Builder @AllArgsConstructor @NoArgsConstructor
-public class User implements Serializable {
+@Table(name="USERS")
+@Data @EqualsAndHashCode(callSuper=false ,  doNotUseGetters=true , of = {"id"})  
+@AllArgsConstructor @Builder
+public class User extends DomainEntity<UserRepository,User> 
+	implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
 
 	@Size(max = 200)
 	@NotNull
@@ -82,14 +78,13 @@ public class User implements Serializable {
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonBackReference
-	@JoinTable(name = "user_groups"
-				, joinColumns = { @JoinColumn(name="user_id") }
-				, inverseJoinColumns = { @JoinColumn(name = "group_id") })
+	@JoinTable(name = "USER_GROUPS"
+				, joinColumns = { @JoinColumn(name="users_id") }
+				, inverseJoinColumns = { @JoinColumn(name = "user_groups_id") })
 	private List<Group> groups;
+
 	
-	@Autowired
-	private UserRepository all;
-	
-	
+	public User () {}
+
 	
 }

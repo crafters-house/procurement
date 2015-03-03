@@ -11,13 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
-@Table(name="user_group")
+@Table(name="USER_GROUPS")
+@AllArgsConstructor
 public class Group implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,5 +37,9 @@ public class Group implements Serializable {
 	
 	@OneToMany
 	private List<User> users;
+
+	public Group() {
+	}
+
 	
 }

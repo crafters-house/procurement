@@ -11,17 +11,23 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
-		
-	<context:load-time-weaver 
-			weaver-class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
-					
+	
+
 	<context:annotation-config />
-	
+
 	<context:component-scan base-package="com.craftershouse"/>
-			
-	<context:spring-configured/>
+
+	<context:spring-configured  />
 	
-	<aop:aspectj-autoproxy proxy-target-class="false" />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<aop:config proxy-target-class="true" />
+		
+		
+	<!-- <context:load-time-weaver aspectj-weaving="on"	weaver-class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" /> -->
+	
+			
+
 	
 
 	<bean id="placeholderConfig"
@@ -29,5 +35,60 @@
 		<property name="location" value="classpath:procurement.properties" />
 	</bean> 
 
-	<import resource="classpath:application-context-db.xml"/>
+	<!-- Replace this config to use managed datasource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="initialSize" value="3"/>
+		<property name="maxTotal" value="20"/>
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+	
+
+	
+	<bean id="persistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+		<property name="defaultDataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="persistenceUnitName" value="procurementPU" />
+		<property name="persistenceProvider">
+			<bean class="org.hibernate.jpa.HibernatePersistenceProvider" />
+		</property>
+		<property name="packagesToScan" value="com.craftershouse"/>
+
+		
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="false" />
+				<property name="databasePlatform" value="${db.dialect}" />
+			</bean>
+		</property>
+ 		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+			</props>
+		</property>
+		
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+	<jpa:repositories base-package="com.craftershouse" />
+
+	<context:load-time-weaver aspectj-weaving="on" />
+
+
 </beans>

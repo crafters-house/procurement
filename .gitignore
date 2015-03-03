@@ -5,6 +5,8 @@
 Servers
 .metadata
 .project
+*.txt
+*.springBeans
 RemoteSystemsTempFiles
 procurement-account-domain/.settings
 procurement-account-domain/.classpath

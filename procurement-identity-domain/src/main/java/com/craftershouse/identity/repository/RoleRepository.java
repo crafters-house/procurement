@@ -14,6 +14,6 @@ import com.craftershouse.identity.Role;
  * @param <T>
  */
 @Repository
-public interface RoleRepository<T extends Role> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
+public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
 		
 }

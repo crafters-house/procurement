@@ -14,6 +14,6 @@ import com.craftershouse.identity.Group;
  * @param <T>
  */
 @Repository
-public interface GroupRepository<T extends Group> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
+public interface GroupRepository extends JpaRepository<Group, Long>, JpaSpecificationExecutor<Group> {
 		
 }
