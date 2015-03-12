@@ -3,6 +3,7 @@ package com.craftershouse.identity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +18,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
-@Builder
 @Table(name="USER_GROUPS")
-@AllArgsConstructor
+@Data @Builder @AllArgsConstructor
 public class Group implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -35,7 +34,7 @@ public class Group implements Serializable {
 	@Column(nullable=false,length=500)
 	private String description;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<User> users;
 
 	public Group() {

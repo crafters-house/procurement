@@ -32,15 +32,18 @@
 	
 	<bean id="persistenceUnitManager"
 		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
-		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+		<!-- <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" /> -->
+		<property name="defaultPersistenceUnitName" value="procurementPU"/>
 		<property name="defaultDataSource" ref="dataSource" />
-		<property name="packagesToScan" value="com.craftershouse.*"/>
+		<property name="packagesToScan" value="com.craftershouse"/>
 	</bean>
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		
 		<property name="persistenceUnitName" value="procurementPU" />
+		<property name="packagesToScan" value="com.craftershouse"/>
 		<property name="persistenceProvider">
 			<bean class="org.hibernate.jpa.HibernatePersistenceProvider" />
 		</property>

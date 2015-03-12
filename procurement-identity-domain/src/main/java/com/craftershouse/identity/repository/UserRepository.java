@@ -1,10 +1,9 @@
 package com.craftershouse.identity.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.craftershouse.identity.User;
+import com.craftershouse.jpa.repository.JpaRepositorySpecificationExecutor;
 
 
 /**
@@ -14,6 +13,6 @@ import com.craftershouse.identity.User;
  * @param <T>
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends JpaRepositorySpecificationExecutor<User, Long> {
 		
 }

@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -22,7 +23,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import com.craftershouse.activerecord.DomainEntity;
+import com.craftershouse.activerecord.RootAggregate;
 import com.craftershouse.identity.repository.UserRepository;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -30,8 +31,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name="USERS")
 @Data @EqualsAndHashCode(callSuper=false ,  doNotUseGetters=true , of = {"id"})  
 @AllArgsConstructor @Builder
-public class User extends DomainEntity<UserRepository,User> 
-	implements Serializable {
+public class User extends RootAggregate<UserRepository,User> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -74,7 +74,7 @@ public class User extends DomainEntity<UserRepository,User>
 	
 	@NotNull
 	@OneToMany(targetEntity=Role.class)
-	private List<Role> role;
+	private List<Role> roles;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonBackReference
@@ -82,9 +82,17 @@ public class User extends DomainEntity<UserRepository,User>
 				, joinColumns = { @JoinColumn(name="users_id") }
 				, inverseJoinColumns = { @JoinColumn(name = "user_groups_id") })
 	private List<Group> groups;
-
 	
 	public User () {}
+	
+	@Transactional
+	public void add(Group group) {
+		getGroups().add(group);
+	}
 
+	@Transactional
+	public void add(Role role) {
+		getRoles().add(role);
+	}
 	
 }
